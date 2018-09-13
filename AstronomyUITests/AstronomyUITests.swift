@@ -19,5 +19,18 @@ class AstronomyUITests: XCTestCase {
         app.launch()
     }
     
+    func testTappingOnNextSolButton() {
+        PhotosCollectionPage(testCase: self)
+        .tapOnNextSolButton()
+    }
     
+    func testTappingOnPreviousSolButton() {
+        PhotosCollectionPage(testCase: self)
+        .tapOnPreviousSolButton()
+    }
+    
+    func testTappingOnCollectionCell() {
+        PhotosCollectionPage(testCase: self)
+            .tapOnCollectionCell(at: 0)
+    }
 }

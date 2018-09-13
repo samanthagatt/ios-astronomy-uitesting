@@ -8,12 +8,16 @@
 
 import XCTest
 
-class PhotosCollectionPage: TestPage {
+struct PhotosCollectionPage: TestPage {
     
-    let testCase = XCTestCase()
+    let testCase: XCTestCase
     
     
     // MARK: - Elements
+    
+    func collectionCell(at index: Int) -> XCUIElement {
+        return app.collectionViews.cells.element(boundBy: index)
+    }
     
     var previousSolButton: XCUIElement {
         return app.buttons["PhotosCollectionViewController.PreviousSolButton"]
@@ -23,17 +27,38 @@ class PhotosCollectionPage: TestPage {
         return app.buttons["PhotosCollectionViewController.NextSolButton"]
     }
     
-    var cellImageView: XCUIElement {
-        return app.images["ImageCollectionViewCell.imageView"]
+    var title: String {
+        return app.title
     }
     
     
     // MARK: - Actions
     
+    @discardableResult func tapOnNextSolButton(file: String = #file, line: UInt = #line) -> PhotosCollectionPage {
+        testCase.expect(exists: nextSolButton, file: file, line: line)
+        nextSolButton.tap()
+        return self
+    }
     
+    @discardableResult func tapOnPreviousSolButton(file: String = #file, line: UInt = #line) -> PhotosCollectionPage {
+        testCase.expect(exists: previousSolButton, file: file, line: line)
+        previousSolButton.tap()
+        return self
+    }
+    
+    @discardableResult func tapOnCollectionCell(at index: Int, file: String = #file, line: UInt = #line) -> PhotosCollectionPage {
+        let cell = collectionCell(at: index)
+        testCase.expect(exists: cell, file: file, line: line)
+        cell.tap()
+        return self
+    }
     
     
     // MARK: - Verifications
     
-    
+    // don't know how I'd have access to the previous title but I'll worry about that later
+    @discardableResult func verifyTitleChanges(prevTitle: String, file: String = #file, line: UInt = #line) -> PhotosCollectionPage {
+        testCase.expect(prevTitle, equals: title, file: file, line: line)
+        return self
+    }
 }
