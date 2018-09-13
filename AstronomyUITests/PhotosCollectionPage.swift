@@ -58,11 +58,11 @@ class PhotosCollectionPage: TestPage {
         return self
     }
     
-    @discardableResult func tapOnCollectionCell(at index: Int, file: String = #file, line: UInt = #line) -> PhotosCollectionPage {
+    @discardableResult func tapOnCollectionCell(at index: Int, file: String = #file, line: UInt = #line) -> PhotoDetailPage {
         let cell = collectionCell(at: index)
         testCase.expect(exists: cell, file: file, line: line)
         cell.tap()
-        return self
+        return PhotoDetailPage(testCase : testCase)
     }
     
     @discardableResult func storeTitle(file: String = #file, line: UInt = #line) -> PhotosCollectionPage {
