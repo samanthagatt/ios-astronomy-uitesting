@@ -33,4 +33,13 @@ class AstronomyUITests: XCTestCase {
         PhotosCollectionPage(testCase: self)
             .tapOnCollectionCell(at: 0)
     }
+    
+    func testTitleAfterTappingNextSolButton() {
+        PhotosCollectionPage(testCase: self)
+        .storeTitle()
+        .tapOnNextSolButton()
+        .verifyTitleChanges()
+    }
+    
+    
 }

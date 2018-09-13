@@ -8,7 +8,13 @@
 
 import XCTest
 
-struct PhotosCollectionPage: TestPage {
+class PhotosCollectionPage: TestPage {
+    
+    init(testCase: XCTestCase, storedTitle: String? = nil) {
+        self.testCase = testCase
+        self.storedTitle = storedTitle
+    }
+    
     
     let testCase: XCTestCase
     
@@ -28,11 +34,17 @@ struct PhotosCollectionPage: TestPage {
     }
     
     var title: String {
-        return app.title
+        return app.navigationBars.element(boundBy: 0).identifier
     }
+    
+    var storedTitle: String?
     
     
     // MARK: - Actions
+    
+    @discardableResult func sleep(_ int: UInt32, file: String = #file, line: UInt = #line) -> PhotosCollectionPage {
+        return self
+    }
     
     @discardableResult func tapOnNextSolButton(file: String = #file, line: UInt = #line) -> PhotosCollectionPage {
         testCase.expect(exists: nextSolButton, file: file, line: line)
@@ -53,12 +65,17 @@ struct PhotosCollectionPage: TestPage {
         return self
     }
     
+    @discardableResult func storeTitle(file: String = #file, line: UInt = #line) -> PhotosCollectionPage {
+        storedTitle = title
+        return self
+    }
+    
     
     // MARK: - Verifications
     
-    // don't know how I'd have access to the previous title but I'll worry about that later
-    @discardableResult func verifyTitleChanges(prevTitle: String, file: String = #file, line: UInt = #line) -> PhotosCollectionPage {
-        testCase.expect(prevTitle, equals: title, file: file, line: line)
+    @discardableResult func verifyTitleChanges(file: String = #file, line: UInt = #line) -> PhotosCollectionPage {
+        testCase.expect(notNil: storedTitle, file: file, line: line)
+        testCase.expect(storedTitle, notEquals: title, file: file, line: line)
         return self
     }
 }
